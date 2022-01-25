@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	<!-- Google Tag Manager -->
+	<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+	new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+	j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+	'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+	})(window,document,'script','dataLayer','GTM-5XMMX7D');</script>
+	<!-- End Google Tag Manager -->
+
+		<title>Vocablyfy - JLPT</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<meta name="description" content="Online JLPT flashcard generator">
+		<meta name="keywords" content="Japanese, Vocabulary, Flashcards, JLPT, Hiragana, Katakana, Romaji, English, Kanji">
+		<meta name="author" content="Thien Minh Tran">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<!--Dependecies:
+			1.Bootstrap CSS (CSS Styles)
+			2.JQuery CDN (Javascript functions)
+			3.Popper CDN (Javascript functions)
+			4.Boostrap CDN (Javascript functions)
+			5.Datatables CSS (CSS Style Datatables Base)
+			6.Datatables CDN (Javascript functions)
+			7.Datatables extension for responsive column hiding (Javascript functions)
+		-->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+		<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.20/sl-1.3.1/datatables.min.css"/>
+		<script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.20/sl-1.3.1/datatables.min.js"></script>
+		<script type="text/javascript" src="https://cdn.datatables.net/responsive/1.0.7/js/dataTables.responsive.min.js"></script>
+
+		<!--code for favicon display-->
+		<link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png">
+		<link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png">
+		<link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png">
+		<link rel="manifest" href="favicon/site.webmanifest">
+		<!--code for favicon display-->
+	  
+		<style>
+			.hidden {
+				display:none;
+			}
+			
+			.shown {
+			}
+			
+			div.container {
+				padding-top: 85px;
+				padding-bottom: 25px;
+			}
+			
+			p {
+				-ms-word-break: break-all;
+				word-break: break-all;
+				word-break: break-word;
+
+				-webkit-hyphens: auto;
+				-moz-hyphens: auto;
+				hyphens: auto;
+			}
+			
+			/*prevent "Minna no Nihongo" from splitting into two lines in drop down menu*/
+				.dropdown-menu {
+				min-width: 220px !important;
+			}
+		
+			.label-select {
+				display: block;
+			}
+		
+			.dropdown-item:active {
+				background-color: #28a745 !important;
+			}
+			
+			.card-div {
+				width:100%;
+				min-height: 60vh;
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				justify-content: center;
+				background: #28a745;
+				border-style: solid;
+				border-width: 5px;
+				border-color:#2e6c04;
+				border-radius: 8px;
+			}
+		
+			.card-div-enclosing {
+				width:100%;
+				min-height: 60vh;
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				justify-content: center;
+				background: #8c8c8c;
+				border-style: solid;
+				border-width: 5px;
+				border-color:black;
+				border-radius: 8px;
+			}
+		
+			.vocab-text{
+				max-width:75%;
+				font-size:4vmax;
+				color:white;
+				font-weight: bold;
+			}
+		
+			.vocab-text-enclosing{
+				max-width:75%;
+				font-size:180%;
+				color:white;
+			}
+			
+			.disable-text{ 
+				-webkit-user-select:none; 
+				-webkit-touch-callout:none; 
+				-moz-user-select:none; 
+				-ms-user-select:none; 
+				user-select:none;   
+			}
+			
+			.modal-open .container .table-responsive .dataTables_wrapper .table tbody tr td {
+				visibility:hidden;
+			}
+			
+			.optionsModal .modal-header,.modal-footer {
+				background-color: #dee2e6 !important;
+			}
+			
+			.btn-green-invert {
+				color: #28a745;
+				background-color: whitesmoke;
+				border-color: #28a745;
+			}
+			
+			.btn-green-invert:hover {
+				background-color: #28a745;
+			}
+			
+			select.form-control {
+				width: 50%;
+			}
+			
+			.optionsPlacement{
+				margin-top: 8px;
+				margin-bottom: 8px;
+				display: flex;
+				align-items: center;
+			}
+			.optionsPlacement select{
+				margin-left: auto;
+			}
+			
+			
+			@media only screen and (max-height: 500px) {
+				#bootstrap-overrides div {
+					right: 0;
+				}
+				
+				.scrollable-menu {
+					height: auto;
+					max-height: 250px;
+					overflow-x: hidden;
+				}
+			}
+		
+		</style>
+	</head>
+
+	<body>
+	
+	<!-- Google Tag Manager (noscript) -->
+	<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5XMMX7D"
+	height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+	<!-- End Google Tag Manager (noscript) -->
+		
+		<!-- Nav bar -->
+		<nav class="navbar navbar-expand-sm bg-dark navbar-dark fixed-top">
+			<a class="navbar-brand text-success" href="https://www.vocablyfy.com/">Vocablyfy</a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<ul class="navbar-nav mr-auto">       
+					<li class="nav-item">
+						<a class="navbar-brand" href="#">JLPT</a>
+					</li>
+					<li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown_sets" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Set Selection</a>
+						<div class="dropdown-menu" aria-labelledby="navbarDropdown_sets">
+							<div class="dropdown-item"><button type="button" class="btn btn-success btn-block"  data-toggle="modal" data-target="#MNH_Chapters_Modal">JLPT Sets</button></div>
+						</div>
+					</li>
+					<li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown_words" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Word Type</a>
+						<div id="bootstrap-overrides" class="dropdown-menu scrollable-menu" style="right:0" aria-labelledby="navbarDropdown_words">
+							<div class="dropdown-item stop-close"><label class="label-select"><input type="checkbox" class="word-type-filters" value="0">&nbsp;All</label></div>
+							<div class="dropdown-item stop-close"><label class="label-select"><input type="checkbox" class="word-type-filters" value="6">&nbsp;Verbs</label></div>
+							<div class="dropdown-item stop-close"><label class="label-select"><input type="checkbox" class="word-type-filters" value="7">&nbsp;Nouns</label></div>
+							<div class="dropdown-item stop-close"><label class="label-select"><input type="checkbox" class="word-type-filters" value="8">&nbsp;Adjectives</label></div>
+							<div class="dropdown-item stop-close"><label class="label-select"><input type="checkbox" class="word-type-filters" value="9">&nbsp;Adverbs</label></div>
+							<div class="dropdown-item stop-close"><label class="label-select"><input type="checkbox" class="word-type-filters" value="10">&nbsp;Phrases</label></div>
+							<div class="dropdown-item stop-close"><label class="label-select"><input type="checkbox" class="word-type-filters" value="11">&nbsp;Other</label></div>
+							<div class="dropdown-divider"></div>
+							<div class="dropdown-item"><button type="button" class="btn btn-success btn-block" onclick="filterWords();">Update</button></div>
+						</div>
+					</li>
+					<li>
+						<button type="button" class="btn btn-green-invert my-2 my-sm-0 ml-1" data-toggle="modal" data-target="#optionsModal">Flashcard Options</button>
+					</li>
+					<li>
+						<button type="button" class="btn btn-success my-2 my-sm-0 ml-1" onclick="generateFlashcards();" data-toggle="modal" data-target=".bd-example-modal-lg">Create Flashcards</button>
+					</li>
+				</ul>
+			</div>
+		</nav>
+		
+		<!-- Datatables Table -->
+		<div class="container">
+			<div class="table-responsive">
+				<table id="jap_vocab_table" class="table table-striped table-bordered" style="width:100%"></table>
+			</div>
+		</div>
+
+		<!--JLPT Select Modal -->
+		<div class="modal fade" id="MNH_Chapters_Modal" tabindex="-1" role="dialog" aria-labelledby="MNHModalLabel" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="MNHModalLabel">JLPT Set Selection</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<div style="float:left; padding-right:25px">
+							<div>
+								<input type="checkbox" class="MNH_Chapters" id="MNH-checkbox-1" value="5"/>
+								<label for="MNH-checkbox-1">JLPT N5</label>
+							</div>
+							<div>
+								<input type="checkbox" class="MNH_Chapters" id="MNH-checkbox-2" value="4"/>
+								<label for="MNH-checkbox-2">JLPT N4</label>
+							</div>
+							<div>
+								<input type="checkbox" class="MNH_Chapters" id="MNH-checkbox-3" value="3"/>
+								<label for="MNH-checkbox-3">JLPT N3</label>
+							</div>
+							<div>
+								<input type="checkbox" class="MNH_Chapters" id="MNH-checkbox-4" value="2" disabled/>
+								<label for="MNH-checkbox-4">JLPT N2 &#40;Coming Soon&#41;</label>
+							</div>
+							<div>
+								<input type="checkbox" class="MNH_Chapters" id="MNH-checkbox-5" value="1" disabled/>
+								<label for="MNH-checkbox-5">JLPT N1 &#40;Coming Soon&#41;</label>
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-success" onclick="getSelectedMNHChapters();" data-dismiss="modal">Update</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!--Options Modal -->
+		<div class="modal fade" id="optionsModal" tabindex="-1" role="dialog" aria-labelledby="MNHModalLabel" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content optionsModal">
+					<div class="modal-header">
+						<h5 class="modal-title text-success" id="MNHModalLabel">Flash Card Options</h5>
+					</div>
+					<div class="modal-body">
+						<div class="optionsPlacement">
+							<label for="flashCardSideOneSelect"><strong>Flashcard Side 1:</strong></label>
+							<select class="form-control" id="flashCardSideOneSelect">
+								<option value="1">English</option>
+								<option value="2">Hiragana</option>
+								<option value="3">Kanji</option>
+								<option value="4">Romaji</option>
+							</select>
+						</div>
+						<div class="optionsPlacement">
+							<label for="flashCardSideTwoSelect"><strong>Flashcard Side 2:</strong></label>
+							<select class="form-control" id="flashCardSideTwoSelect">
+								<option value="1">English</option>
+								<option value="2" selected>Hiragana</option>
+								<option value="3">Kanji</option>
+								<option value="4">Romaji</option>
+							</select>
+						</div>
+						<div class="optionsPlacement">
+							<label for="flashCardSideThreeSelect"><strong>Flashcard Side 3:</strong></label>
+							<select class="form-control" id="flashCardSideThreeSelect">
+								<option value="1">English</option>
+								<option value="2">Hiragana</option>
+								<option value="3">Kanji</option>
+								<option value="4">Romaji</option>
+								<option value="5" selected>None</option>
+							</select>
+						</div>
+						<div class="optionsPlacement">
+							<label for="flashCardSideFourSelect"><strong>Flashcard Side 4:</strong></label>
+							<select class="form-control" id="flashCardSideFourSelect">
+								<option value="1">English</option>
+								<option value="2">Hiragana</option>
+								<option value="3">Kanji</option>
+								<option value="4">Romaji</option>
+								<option value="5" selected>None</option>
+							</select>
+						</div>						
+						<div class="optionsPlacement">
+							<label for="flashCardRandomization"><strong>Randomize Flashcards:</strong></label>
+							<select class="form-control" id="flashCardRandomization">
+								<option value="1">Off</option>
+								<option value="2">On</option>
+							</select>
+						</div>
+						<div class="optionsPlacement">	
+							<label for="flashCardSource"><strong>Flashcards Source:</strong></label>
+							<select class="form-control" id="flashCardSource">
+								<option value="1">Current Table</option>
+								<option value="2">Selected Items</option>
+							</select>
+						</div>
+
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-success" data-dismiss="modal">Update</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!--Flashcards Modal -->
+		<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-lg">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<div id="demo" class="carousel slide" data-ride="carousel" data-interval="false" data-wrap="false">
+							
+							<!-- Empty slide show which get populated by generateFlashCards function -->
+							<div class="carousel-inner disable-text" id="flashcards" onclick="cycleActive(this);"></div>				
+							
+							<a class="carousel-control-prev" href="#demo" data-slide="prev">
+								<span class="carousel-control-prev-icon"></span>
+							</a>
+							<a class="carousel-control-next" href="#demo" data-slide="next">
+								<span class="carousel-control-next-icon"></span>
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+	
+	<!-- Footer of page -->
+	<footer class="page-footer font-small bg-dark">
+		<div class="footer-copyright text-center py-3 text-muted">Thien Tran © 2019 Copyright:
+			<a href="https://www.vocablyfy.com" class="text-success"> Vocablyfy.com</a>
+		</div>
+	</footer>
+	
+</html>
+
+<script>
+	/*Define global variables*/
+	var vocab_set = null;
+	var vocablyfy_table;
+	var columnsChecked = [];
+
+	/*Datatables Initialization*/
+	$(document).ready(function() {
+      
+		vocab_set = getJsonFile('JLPT/JLPT_N5.json');
+
+		vocablyfy_table = $('#jap_vocab_table').DataTable({
+			"data": vocab_set,
+			"columns": [
+				{ "defaultContent":"", "className":"select-checkbox", "orderData": [ 0, 1 ]},
+				{"data":"ID", "className": "none", "title":"ID"},
+				{"data":"English", "title":"English"},
+				{"data":"Hiragana", "title":"Hiragana"},
+				{"data":"Kanji", "title":"Kanji"},
+				{"data":"Romaji", "title":"Romaji"},
+				{"data":"Verb", "className": "none", "title":"Verb"},
+				{"data":"Noun", "className": "none", "title":"Noun"},
+				{"data":"Adjective", "className": "none", "title":"Adjective"},
+				{"data":"Adverbs", "className": "none", "title":"Adverbs"},
+				{"data":"Phrase", "className": "none", "title":"Phrase"},
+				{"data":"Other", "className": "none", "title":"Other"}
+			],
+			"pageLength": 50,
+			"stateSave": true,
+			"select":{style: 'multi'},
+			"responsive": {
+				details: false
+			}
+		});
+	});
+    
+	$('div.stop-close').on('click', function(event){
+		event.stopPropagation();
+	});
+	
+	$(document).keyup(function(e) {
+		if (e.which == 32 || e.which == 38) {
+			$('#flashcards').trigger('click');
+		}
+		
+		if (e.which == 37) {
+			$('.carousel').carousel('prev'); 
+		}
+		
+		if (e.which == 39) {
+			$('.carousel').carousel('next');
+		}
+		
+	});
+
+	/*function for getting json files from server*/
+	function getJsonFile(fileName) {
+		let jsonVocabData = null;
+		$.ajax({
+			'async': false,
+			'global': false,
+			'url': fileName,
+			'dataType': "json",
+			'success': function (data) {
+				jsonVocabData = data;
+			}
+		});
+		return jsonVocabData;
+	}
+
+	$.fn.dataTable.ext.search.push(
+		function(settings,searchData,index,rowData,counter) {
+			let i = 0;
+			let len = columnsChecked.length;
+	  
+			if (columnsChecked.length == 0) {
+				return true;
+			}
+			else if (columnsChecked.includes(0) == true) {
+				return true;
+			}
+			else {
+				for (i = 0; i < len; i++) {
+					if (searchData[columnsChecked[i]] == 1) {
+						return true;
+					}
+				}
+				return false;
+			}
+	});
+	
+	function getSelectedMNHChapters() {
+
+		let vocab_set_temp = null;
+		let isFirstChecked = true;
+		let allMNHChapters = document.getElementsByClassName("MNH_Chapters");
+		let fileNameMNH = "";
+		let i = 0;
+		let allMNHChaptersLength = allMNHChapters.length;
+		
+		let firstChapter = 0;
+		let lastChapter = 0;
+		let amountOfSelectedChapters = 0;
+      
+		for (i = 0; i < allMNHChaptersLength; i++) {
+			if (allMNHChapters[i].checked == true && isFirstChecked == false) {
+				fileNameMNH = "JLPT/JLPT_N" + allMNHChapters[i].value + ".json";
+				vocab_set_temp = getJsonFile(fileNameMNH);
+				vocab_set = vocab_set.concat(vocab_set_temp);
+				amountOfSelectedChapters++;
+				lastChapter = allMNHChapters[i].value;
+			}
+			else if (allMNHChapters[i].checked == true && isFirstChecked == true) { 
+				vocab_set = null;
+				fileNameMNH = "JLPT/JLPT_N" + allMNHChapters[i].value + ".json";
+				vocab_set = getJsonFile(fileNameMNH);
+				isFirstChecked = false;
+				amountOfSelectedChapters++;
+				firstChapter = allMNHChapters[i].value;
+				lastChapter = allMNHChapters[i].value;
+			}
+			else {
+				//Do nothing
+			}
+			
+		}
+		vocablyfy_table.clear().rows.add(vocab_set);
+		vocablyfy_table.draw();
+		
+		window.dataLayer = window.dataLayer || [];
+		window.dataLayer.push({
+			'event': 'chaptersSelected',
+			'chaptersAmount': amountOfSelectedChapters,
+			'chaptersLowest': firstChapter,
+			'chaptersHighest': lastChapter
+		});
+	}
+
+	function filterWords() {
+		let wordTypes = document.getElementsByClassName("word-type-filters");
+		let intConvertedValue = 0;
+		let tempColumnsChecked  = [];
+		let i = 0;
+		let wordTypesLength = wordTypes.length;
+
+		for (i = 0; i < wordTypesLength; i++) {
+			if (wordTypes[i].checked == true) {
+				intConvertedValue = parseInt(wordTypes[i].value);
+				tempColumnsChecked.push(intConvertedValue);
+			}
+		}
+		columnsChecked = tempColumnsChecked;
+		vocablyfy_table.draw();
+	}
+	
+	function shuffle(array) {
+		let tmp, current, top = array.length;
+		
+		if(top) while(--top) {
+			current = Math.floor(Math.random() * (top + 1));
+			tmp = array[current];
+			array[current] = array[top];
+			array[top] = tmp;
+		}
+		
+		return array;
+	}
+	
+	function wordTypeSwitch(number) {
+		switch(number) {
+			case "1":
+				return "English";
+			case "2":
+				return "Hiragana";
+			case "3":
+				return "Kanji";
+			case "4":
+				return "Romaji";
+			case "5":
+				return "None";
+			default:
+				return "English";
+	}
+	
+	}
+  
+	function generateFlashcards() {
+		let flashCardSideOne = $('#flashCardSideOneSelect').children("option:selected").val();
+		let flashCardSideTwo = $('#flashCardSideTwoSelect').children("option:selected").val();
+		let flashCardSideThree = $('#flashCardSideThreeSelect').children("option:selected").val();
+		let flashCardSideFour = $('#flashCardSideFourSelect').children("option:selected").val();
+		let flashCardRandomizeOption = $('#flashCardRandomization').children("option:selected").val();
+		let flashCardSourceOption = $('#flashCardSource').children("option:selected").val();
+		
+		let stringHTML = "";
+		let tempString = "";
+		let i = 0;
+		let itemsIter = 0;
+		
+		let flashcard_array = [];
+		let flashcardItemNumberArray = [];
+		let flashcardsArrayLength = 0;
+		let wordTypeOne = wordTypeSwitch(flashCardSideOne);
+		let wordTypeTwo = wordTypeSwitch(flashCardSideTwo);
+		let wordTypeThree = wordTypeSwitch(flashCardSideThree);
+		let wordTypeFour = wordTypeSwitch(flashCardSideFour);
+		
+		
+		//Check option for Flash card source and get rows based on current table or selected items
+		if (flashCardSourceOption == 1) {
+			flashcard_array = vocablyfy_table.rows({ search: 'applied' }).data().toArray();
+			flashcardsArrayLength = flashcard_array.length;
+		}
+		else {
+			flashcard_array = vocablyfy_table.rows({ search: 'applied',  selected: true }).data().toArray();
+			flashcardsArrayLength = flashcard_array.length;
+		}
+		
+		//Create integer array equal to length of rows and shuffle is randomize option selected
+		if (flashCardRandomizeOption == 1) {
+			for (itemsIter=0; itemsIter < flashcard_array.length; ++itemsIter) { 
+				flashcardItemNumberArray[itemsIter]=itemsIter; 
+			}
+			
+		}
+		else {
+			for (itemsIter=0; itemsIter < flashcard_array.length; ++itemsIter) { 
+				flashcardItemNumberArray[itemsIter]=itemsIter; 
+			}
+			
+			flashcardItemNumberArray = shuffle(flashcardItemNumberArray);
+		}
+	
+		$(".carousel-inner").empty();
+    
+		stringHTML = "<div class=\"carousel\-item active\"><div class=\"card\-div\-enclosing\"><p class=\"vocab\-text\-enclosing shown\">Tap or click centre to change word\'s spelling type</p><p class=\"vocab\-text\-enclosing hidden\">Check Flashcard Options Button to change Flashcard settings</p></div></div>";
+    
+		if (flashCardSideThree == 5 && flashCardSideFour == 5) {
+			for (i = 0; i < flashcardsArrayLength; i++) {
+				tempString="<div class=\"carousel\-item\"><div class=\"card\-div\"><p class=\"vocab\-text shown\">"
+					+flashcard_array[flashcardItemNumberArray[i]][wordTypeOne]+"</p><p class=\"vocab\-text hidden\">"
+					+flashcard_array[flashcardItemNumberArray[i]][wordTypeTwo]+"</p></div></div>";
+				stringHTML = stringHTML+tempString;
+			}
+		}
+		else if (flashCardSideFour == 5) {
+			for (i = 0; i < flashcardsArrayLength; i++) {
+				tempString="<div class=\"carousel\-item\"><div class=\"card\-div\"><p class=\"vocab\-text shown\">"
+					+flashcard_array[flashcardItemNumberArray[i]][wordTypeOne]+"</p><p class=\"vocab\-text hidden\">"
+					+flashcard_array[flashcardItemNumberArray[i]][wordTypeTwo]+"</p><p class=\"vocab\-text hidden\">"
+					+flashcard_array[flashcardItemNumberArray[i]][wordTypeThree]+"</p></div></div>";
+				stringHTML = stringHTML+tempString;
+			}
+		}
+		else if (flashCardSideThree == 5) {
+			for (i = 0; i < flashcardsArrayLength; i++) {
+				tempString="<div class=\"carousel\-item\"><div class=\"card\-div\"><p class=\"vocab\-text shown\">"
+					+flashcard_array[flashcardItemNumberArray[i]][wordTypeOne]+"</p><p class=\"vocab\-text hidden\">"
+					+flashcard_array[flashcardItemNumberArray[i]][wordTypeTwo]+"</p><p class=\"vocab\-text hidden\">"
+					+flashcard_array[flashcardItemNumberArray[i]][wordTypeFour]+"</p></div></div>";
+				stringHTML = stringHTML+tempString;
+			}
+		}
+		else {
+			for (i = 0; i < flashcardsArrayLength; i++) {
+				tempString="<div class=\"carousel\-item\"><div class=\"card\-div\"><p class=\"vocab\-text shown\">"
+					+flashcard_array[flashcardItemNumberArray[i]][wordTypeOne]+"</p><p class=\"vocab\-text hidden\">"
+					+flashcard_array[flashcardItemNumberArray[i]][wordTypeTwo]+"</p><p class=\"vocab\-text hidden\">"
+					+flashcard_array[flashcardItemNumberArray[i]][wordTypeThree]+"</p><p class=\"vocab\-text hidden\">"
+					+flashcard_array[flashcardItemNumberArray[i]][wordTypeFour]+"</p></div></div>";
+				stringHTML = stringHTML+tempString;
+			}
+		}
+		
+		document.querySelector('#flashcards').innerHTML = stringHTML;
+		
+		window.dataLayer = window.dataLayer || [];
+		window.dataLayer.push({'event': 'flashCardsGenerated'});
+	}
+
+	function cycleActive(elem) {
+		
+		let selectedP = $(elem).children("div.active").find("p");
+		
+		if (selectedP.last().hasClass("hidden")) {
+			
+			let iter = 0;
+			let indexNumber = 0;
+			
+			for (iter = 0; iter < selectedP.length; iter++) {		
+
+				if (selectedP.eq(iter).hasClass("shown")) {
+					indexNumber = iter;
+				}
+
+			}
+			
+			let pElement = selectedP.eq(indexNumber);
+			let pElementNext = selectedP.eq(indexNumber+1);
+			
+			pElement.toggle();
+			pElement.removeClass("shown");
+			pElement.addClass("hidden");
+
+			pElementNext.toggle();
+			pElementNext.removeClass("hidden");
+			pElementNext.addClass("shown");
+
+
+		}
+		else {
+			selectedP.last().toggle();
+			selectedP.first().toggle();
+			selectedP.last().addClass("hidden");
+			selectedP.first().removeClass("hidden");
+			selectedP.first().addClass("shown");
+			selectedP.last().removeClass("shown");
+		}
+		
+	}
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	<!-- Google Tag Manager -->
+	<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+	new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+	j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+	'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+	})(window,document,'script','dataLayer','GTM-5XMMX7D');</script>
+	<!-- End Google Tag Manager -->
+
+		<title>Vocablyfy</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<meta name="description" content="Japanese vocabulary flashcards generator. Create custom vocab sets by filtering nouns, verbs, adjectives and other word types. Mobile friendly. Let Vocablyfy transform your study experience">
+		<meta name="keywords" content="Japanese, Vocabulary, Flashcards, JLPT,Genki, Minna No Nihongo, Hiragana, Katakana, Romaji, English, Kanji">
+		<meta name="author" content="Thien Minh Tran">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<!--Dependecies:
+			1.Bootstrap CSS (CSS Styles)
+			2.JQuery CDN (Javascript functions)
+			3.Popper CDN (Javascript functions)
+			4.Boostrap CDN (Javascript functions)
+			5.Datatables CSS (CSS Style Datatables Base)
+			6.Datatables CDN (Javascript functions)
+			7.Datatables extension for responsive column hiding (Javascript functions)
+		-->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+		<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.20/sl-1.3.1/datatables.min.css"/>
+		<script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.20/sl-1.3.1/datatables.min.js"></script>
+		<script type="text/javascript" src="https://cdn.datatables.net/responsive/1.0.7/js/dataTables.responsive.min.js"></script>
+
+		<!--code for favicon display-->
+		<link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png">
+		<link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png">
+		<link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png">
+		<link rel="manifest" href="favicon/site.webmanifest">
+		<!--code for favicon display-->
+	  
+		<style>	
+			
+			div.container {
+				padding-top: 1em;
+				padding-bottom: 4em;
+			}
+			
+			@media (min-width: 576px) { 
+				.navbar {
+					display: none;
+				}
+			}
+			
+			@media (max-width: 576px) { 
+				.jumbotron {
+					display: none;
+				}
+			}
+			
+			.flip-card {
+				perspective: 1000px;
+				height: 241px;
+			}
+
+			.flip-card-inner {
+				width: 100%;
+				height: 100%;
+				transition: transform 0.8s;
+				transform-style: preserve-3d;
+				position: relative;
+			}
+			
+			.flipme {
+				transform: rotateX(180deg);
+			}
+
+			.flip-card-front, .flip-card-back {
+				position: absolute;
+				width: 100%;
+				height: 100%;
+				-webkit-backface-visibility: hidden;
+				backface-visibility: hidden;
+			}
+			
+			.flip-card-back {
+				z-index: 2;
+			}
+
+			.flip-card-back {
+				transform: rotateX(180deg);
+			}
+			
+
+  
+		</style>
+	</head>
+
+	<body>
+		<!-- Google Tag Manager (noscript) -->
+		<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5XMMX7D"
+		height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+		<!-- End Google Tag Manager (noscript) -->
+		
+		<nav class="navbar bg-dark navbar-dark justify-content-center">
+			<span class="navbar-brand mb-0 h1 text-success">Vocablyfy</span>
+		</nav>
+		
+		<!-- Datatables Table -->
+		<div class="container">
+			
+			<div class="flip-card jumbotron">
+				<div class="flip-card-inner">
+					
+					<div id="front-of-card" class="flip-card-front selected-side">
+						<h1 id="front-inner" class="display-2 text-success" ><strong>Vocablyfy</strong></h1>
+					</div>
+					
+					<div id="back-of-card" class="flip-card-back">
+						<h1 id="back-inner" class="display-2 text-success" ><strong>Vocablÿfÿ</strong></h1>
+					</div>
+				
+				</div>
+			</div>
+			
+			<div class="table-responsive">
+				<table id="landing-page-table" class="table table-striped table-bordered" style="width:100%">
+					<thead>
+						<tr>
+							<th>Textbook/Set</th>
+							<th>Description</th>
+							<th>Foreign Language</th>
+							<th>Native Language</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td><a href="https://www.vocablyfy.com/MinnaNoNihongo.html" class="text-success"> Minna No Nihongo </a></td>
+							<td><em>Japanese textbook, volumes 1 & 2, vocabulary flashcards</em></td>
+							<td>Japanese</td>
+							<td>English</td>
+						</tr>
+						<tr>
+							<td><a href="https://www.vocablyfy.com/JLPT.html" class="text-success">JLPT Vocabulary</a></td>
+							<td><em>Vocabulary for JLPT N5 to N3</em></td>
+							<td>Japanese</td>
+							<td>English</td>
+						</tr>
+						<tr>
+							<td><a href="https://www.vocablyfy.com/Kana.html" class="text-success">Japanese Kana</a></td>
+							<td><em>Hiragana and Katakana flashcards</em></td>
+							<td>Japanese</td>
+							<td>English</td>
+						</tr>
+						<tr>
+							<td><a href="https://www.vocablyfy.com/Genki.html" class="text-success">Genki</a></td>
+							<td><em>Japanese textbook, volumes 1 & 2, vocabulary flashcards</em></td>
+							<td>Japanese</td>
+							<td>English</td>
+						</tr>
+					</tbody>
+				
+				</table>
+			</div>
+		</div>
+	</body>
+	
+	<!-- Footer of page -->
+	<footer class="page-footer font-small bg-dark fixed-bottom">
+		<div class="footer-copyright text-center py-3 text-muted">Thien Tran © 2019 Copyright:
+			<a href="https://www.vocablyfy.com" class="text-success"> Vocablyfy.com</a>
+		</div>
+	</footer>
+	
+</html>
+
+<script>
+	var titleList = ["Vocablyfy", "Vōcāblyfy", "Vオカblyfy", "Vo카blyfy", "VÖ©ablyfy", "Vocablÿfÿ", "VocaƁlyfƔ", "Voc@blyfy"];
+	
+	/*Datatables Initialization*/
+	$(document).ready(function() {
+
+		vocablyfy_table = $('#landing-page-table').DataTable({
+			"pageLength": 10,
+			"stateSave": true,
+			"responsive": {
+				details: false
+			}
+		});
+	});
+	
+	setInterval(flipTitleCard, 9000);
+	
+	function flipTitleCard() {
+		
+		$(".flip-card-inner").toggleClass("flipme");
+		
+		setTimeout(createInnerCard, 2000)
+		
+	}
+	
+	function createInnerCard() {
+		
+		let RandomNumber = Math.floor(Math.random() * 8);
+		
+		if ($("#front-of-card").hasClass("selected-side")) {
+			
+			$("#front-of-card").removeClass("selected-side");
+			$("#back-of-card").addClass("selected-side");
+			
+			document.getElementById("front-inner").innerHTML = "<strong>"+titleList[RandomNumber]+"</strong>"
+		}
+		else {
+			
+			$("#back-of-card").removeClass("selected-side");
+			$("#front-of-card").addClass("selected-side");
+			
+			document.getElementById("back-inner").innerHTML = "<strong>"+titleList[RandomNumber]+"</strong>"
+		}
+	}
+
+	
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
